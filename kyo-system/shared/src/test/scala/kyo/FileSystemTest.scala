@@ -32,13 +32,19 @@ class FileSystemTest extends kyo.test.Test[Any]:
         export delegate.isRegularFile
         export delegate.isSymbolicLink
         export delegate.list
+        export delegate.lock
         export delegate.mkDir
         export delegate.mkFile
         export delegate.move
         export delegate.openRead
+        export delegate.openReadChannel
+        export delegate.openReadChannelUnscoped
         export delegate.openReadLines
+        export delegate.openReadWriteChannel
+        export delegate.openReadWriteChannelUnscoped
         export delegate.openWalk
         export delegate.openWrite
+        export delegate.openWriteChannel
         export delegate.readBytes
         export delegate.readLines
         export delegate.realPath
@@ -51,6 +57,7 @@ class FileSystemTest extends kyo.test.Test[Any]:
         export delegate.temp
         export delegate.tempDir
         export delegate.truncate
+        export delegate.tryLock
         export delegate.writeBytes
         export delegate.writeChunk
         export delegate.writeLines

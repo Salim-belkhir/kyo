@@ -59,11 +59,16 @@ object HttpOpenApi:
         oneOf: Option[List[SchemaObject]],
         `enum`: Option[List[String]],
         `$ref`: Option[String],
-        pattern: Option[String] = None,
+        minimum: Option[Double] = None,
+        exclusiveMinimum: Option[Double] = None,
+        maximum: Option[Double] = None,
+        exclusiveMaximum: Option[Double] = None,
         minLength: Option[Int] = None,
         maxLength: Option[Int] = None,
-        minimum: Option[Long] = None,
-        maximum: Option[Long] = None,
+        pattern: Option[String] = None,
+        minItems: Option[Int] = None,
+        maxItems: Option[Int] = None,
+        uniqueItems: Option[Boolean] = None,
         description: Option[String] = None
     ) derives Schema, CanEqual
 
