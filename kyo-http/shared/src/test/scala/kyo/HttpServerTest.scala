@@ -169,6 +169,23 @@ class HttpServerTest extends BaseHttpTest:
                 }
             }
 
+            "a query param that fails to decode does NOT fall through" - {
+                // The property [[HttpPathDecodeException]] exists to protect. Both
+                // routes match /block/7 on the path, so before reaching the query
+                // there are two live candidates. `?page=abc` is a client error on a
+                // route that DID match, and answering 200 from the sibling route
+                // would hide it behind whichever route happens to decode.
+                val withQuery = HttpRoute.getRaw("block" / Capture[Height]("height"))
+                    .request(_.query[Int]("page"))
+                    .response(_.bodyText)
+                val withQueryEp = withQuery.handler(req => HttpResponse.ok(s"page=${req.fields.page}"))
+                runServer(withQueryEp, hashEp) { url =>
+                    sendRaw(url, HttpMethod.GET, "/block/7?page=abc").map { resp =>
+                        assert(resp.status == HttpStatus.BadRequest)
+                    }
+                }
+            }
+
             "a single route still reports its own decode failure" - {
                 // Nothing to fall through to: the behaviour of one route with a
                 // constrained codec is unchanged.

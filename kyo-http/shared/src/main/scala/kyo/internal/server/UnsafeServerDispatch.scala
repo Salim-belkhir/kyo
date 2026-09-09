@@ -669,13 +669,13 @@ private[kyo] object UnsafeServerDispatch:
 
                         serveResult match
                             case Result.Failure(error) =>
-                                // Only a *path* decode failure can mean "wrong
+                                // Only a path decode failure can mean "wrong
                                 // candidate". A bad query param, header or body is
                                 // a genuine client error on a route that did match,
                                 // and must not silently fall through to another.
                                 val pathMismatch = error match
-                                    case e: HttpFieldDecodeException => e.fieldType == "path"
-                                    case _                           => false
+                                    case _: HttpPathDecodeException => true
+                                    case _                          => false
                                 if pathMismatch && router.advanceToNextCandidate(lookup) then
                                     val next = router.endpoint(lookup)
                                     serveCandidate(next, buildCaptures(request, lookup, router.captureNames(lookup)))
